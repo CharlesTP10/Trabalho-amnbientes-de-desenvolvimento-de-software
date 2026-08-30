@@ -1,0 +1,31 @@
+<script>
+
+function isPrime(n) {
+    if (n <= 1) return false;
+    if (n === 2) return true;
+    if (n % 2 === 0) return false;
+
+    const limit = Math.sqrt(n);
+    for (let i = 3; i <= limit; i += 2) {
+        if (n % i === 0) return false;
+    }
+    return true;
+}
+
+
+let entrada = prompt("Digite um número inteiro positivo:");
+
+
+let numero = parseInt(entrada);
+
+
+if (isNaN(numero) || numero < 1) {
+    document.write("<h1>Erro: Por favor, digite um número inteiro positivo válido.</h1>");
+} else {
+    if (isPrime(numero)) {
+        document.write("<h1>O número " + numero + " é PRIMO! 🎉</h1>");
+    } else {
+        document.write("<h1>O número " + numero + " NÃO é primo. ❌</h1>");
+    }
+}
+</script>

@@ -1,0 +1,42 @@
+<meta charset="UTF-8">
+
+<script>
+    
+    function quicksort(array) {
+        
+        if (array.length <= 1) {
+            return array;
+        }
+
+        
+        let pivo = array[0];
+        let menores = [];
+        let maiores = [];
+
+        
+        for (let i = 1; i < array.length; i++) {
+            if (array[i] < pivo) {
+                menores.push(array[i]);
+            } else {
+                maiores.push(array[i]);
+            }
+        }
+
+        
+        return typeof quicksort(menores) === 'object' 
+            ? [...quicksort(menores), pivo, ...quicksort(maiores)] 
+            : quicksort(menores).concat(pivo, quicksort(maiores));
+    }
+
+   
+    let numeros = [34, 7, 23, 32, 5, 62];
+
+    
+    document.write("<h2>Algoritmo Quicksort</h2>");
+    document.write("Array original: [" + numeros.join(", ") + "]<br><br>");
+
+    let numerosOrdenados = quicksort(numeros);
+
+    
+    document.write("Array ordenado: <b>[" + numerosOrdenados.join(", ") + "]</b>");
+</script>

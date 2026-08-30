@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+<script>
+    
+    var n = prompt("Informe a quantidade de notas:");
+    var nota;
+    var contador = 0;
+    var i = 0;
+
+    while (i < n) {
+        nota = prompt("Informe um número:");
+         if (nota >= 50) {
+            contador = contador + 1;
+        }
+        i = i + 1;
+    }
+
+    document.write("Número de alunos que passaram no exame: " + contador);
+
+</script>

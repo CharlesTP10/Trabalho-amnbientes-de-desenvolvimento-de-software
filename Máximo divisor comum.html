@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+
+<script>
+    
+    function calcularMDC(a, b) {
+        while (b !== 0) {
+            let resto = a % b;
+            a = b;
+            b = resto;
+        }
+        return Math.abs(a);
+    }
+
+    
+    let numero1 = parseInt(prompt("Digite o primeiro número inteiro:"));
+    let numero2 = parseInt(prompt("Digite o segundo número inteiro:"));
+    
+    
+    let mdc = calcularMDC(numero1, numero2);
+
+
+    document.write("<h2>Resultado do Cálculo</h2>");
+    document.write("O Máximo Divisor Comum entre " + numero1 + " e " + numero2 + " é: <b>" + mdc + "</b>");
+</script>
