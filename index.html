@@ -1,0 +1,876 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Algoritmos - UNIFOR</title>
+
+    <style>
+        :root {
+            --primary: #002B49;
+            --secondary: #0077c8;
+            --background: #f4f7f9;
+            --surface: #ffffff;
+            --text: #333333;
+            --border: #dddddd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--surface);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Layout em Abas */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #eef2f5;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--surface);
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            margin-bottom: -2px;
+        }
+
+        /* Conteúdo das Abas */
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        /* Formulários e Inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button.run-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button.run-btn:hover {
+            background-color: var(--primary);
+        }
+
+        /* Painel de Resultados */
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            min-height: 50px;
+        }
+
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #475569;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .result-text {
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--primary);
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Painel de Algoritmos</h1>
+        <p>
+            Ambientes e Desenvolvimento de Software — UNIFOR |
+            Autor: Charles Targino
+        </p>
+    </header>
+
+    <!-- MENU DE ABAS -->
+    <div class="tabs">
+
+        <button class="tab-btn active"
+                onclick="switchTab(event, 'primo')">
+            Número Primo
+        </button>
+
+        <button class="tab-btn"
+                onclick="switchTab(event, 'somatorio')">
+            Somatório
+        </button>
+
+        <button class="tab-btn"
+                onclick="switchTab(event, 'fibonacci')">
+            Fibonacci
+        </button>
+
+        <button class="tab-btn"
+                onclick="switchTab(event, 'mdc')">
+            MDC
+        </button>
+
+        <button class="tab-btn"
+                onclick="switchTab(event, 'ordenacao')">
+            Ordenação
+        </button>
+
+        <button class="tab-btn"
+                onclick="switchTab(event, 'contagem')">
+            Contagem
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 1. NÚMERO PRIMO -->
+    <!-- ===================================================== -->
+
+    <div id="primo" class="tab-content active">
+
+        <h2>1. Número Primo</h2>
+
+        <p style="margin-bottom: 15px;">
+            Verifica se um número inteiro positivo é primo.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputPrimo">
+                Digite um número inteiro:
+            </label>
+
+            <input
+                type="number"
+                id="inputPrimo"
+                placeholder="Ex: 7"
+                min="0"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularPrimo()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resPrimo" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 2. SOMATÓRIO -->
+    <!-- ===================================================== -->
+
+    <div id="somatorio" class="tab-content">
+
+        <h2>2. Somatório</h2>
+
+        <p style="margin-bottom: 15px;">
+            Calcula a soma de um conjunto de números separados por vírgula.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputSomatorio">
+                Digite os números (separados por vírgula):
+            </label>
+
+            <input
+                type="text"
+                id="inputSomatorio"
+                placeholder="Ex: 10, 20, 30, 40"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularSomatorio()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resSomatorio" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 3. FIBONACCI -->
+    <!-- ===================================================== -->
+
+    <div id="fibonacci" class="tab-content">
+
+        <h2>3. Sequência de Fibonacci</h2>
+
+        <p style="margin-bottom: 15px;">
+            Gera a sequência de Fibonacci até o enésimo (N) termo informado.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputFibonacci">
+                Número de termos (N):
+            </label>
+
+            <input
+                type="number"
+                id="inputFibonacci"
+                placeholder="Ex: 6"
+                min="1"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularFibonacci()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resFibonacci" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 4. MDC -->
+    <!-- ===================================================== -->
+
+    <div id="mdc" class="tab-content">
+
+        <h2>4. Máximo Divisor Comum (MDC)</h2>
+
+        <p style="margin-bottom: 15px;">
+            Encontra o maior divisor comum entre dois números inteiros.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputMdcA">
+                Número A:
+            </label>
+
+            <input
+                type="number"
+                id="inputMdcA"
+                placeholder="Ex: 24"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="inputMdcB">
+                Número B:
+            </label>
+
+            <input
+                type="number"
+                id="inputMdcB"
+                placeholder="Ex: 36"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularMdc()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resMdc" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+
+    <div id="ordenacao" class="tab-content">
+
+        <h2>5. Ordenação (BubbleSort)</h2>
+
+        <p style="margin-bottom: 15px;">
+            Organiza uma lista desordenada de números em ordem crescente.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputOrdenacao">
+                Digite os números desordenados (separados por vírgula):
+            </label>
+
+            <input
+                type="text"
+                id="inputOrdenacao"
+                placeholder="Ex: 5, 2, 9, 1, 7"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularOrdenacao()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resOrdenacao" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 6. CONTAGEM -->
+    <!-- ===================================================== -->
+
+    <div id="contagem" class="tab-content">
+
+        <h2>6. Contagem de Inteiros</h2>
+
+        <p style="margin-bottom: 15px;">
+            Conta quantos números inteiros existem a partir de 1 até o limite dado.
+        </p>
+
+        <div class="form-group">
+
+            <label for="inputContagem">
+                Número Limite (N):
+            </label>
+
+            <input
+                type="number"
+                id="inputContagem"
+                placeholder="Ex: 10"
+                min="1"
+            >
+
+        </div>
+
+        <button
+            class="run-btn"
+            onclick="calcularContagem()">
+            Executar Algoritmo
+        </button>
+
+        <div class="result-box">
+
+            <div class="result-title">
+                Resultado:
+            </div>
+
+            <div id="resContagem" class="result-text">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    
+
+    function switchTab(event, tabId) {
+
+        const tabContents =
+            document.querySelectorAll('.tab-content');
+
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        const tabButtons =
+            document.querySelectorAll('.tab-btn');
+
+        tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        document
+            .getElementById(tabId)
+            .classList.add('active');
+
+        event.currentTarget.classList.add('active');
+    }
+
+
+   
+
+    function parseInputToArray(str) {
+
+        return str
+            .split(',')
+            .map(num => num.trim())
+            .filter(num => num !== "" && !isNaN(num))
+            .map(Number);
+
+    }
+
+
+   
+
+    function calcularPrimo() {
+
+        const input =
+            document.getElementById('inputPrimo').value;
+
+        const resultado =
+            document.getElementById('resPrimo');
+
+        const numero = Number(input);
+
+        if (input === "") {
+
+            resultado.textContent =
+                "Digite um número.";
+
+            return;
+        }
+
+        if (!Number.isInteger(numero) || numero < 0) {
+
+            resultado.textContent =
+                "Digite um número inteiro positivo.";
+
+            return;
+        }
+
+        if (numero < 2) {
+
+            resultado.textContent =
+                numero + " não é primo.";
+
+            return;
+        }
+
+        let primo = true;
+
+        for (let i = 2; i <= Math.sqrt(numero); i++) {
+
+            if (numero % i === 0) {
+
+                primo = false;
+                break;
+
+            }
+
+        }
+
+        if (primo) {
+
+            resultado.textContent =
+                numero + " é um número primo.";
+
+        } else {
+
+            resultado.textContent =
+                numero + " não é um número primo.";
+
+        }
+
+    }
+
+
+    
+
+    function calcularSomatorio() {
+
+        const input =
+            document.getElementById('inputSomatorio').value;
+
+        const resultado =
+            document.getElementById('resSomatorio');
+
+        if (input.trim() === "") {
+
+            resultado.textContent =
+                "Digite os números.";
+
+            return;
+        }
+
+        const numeros =
+            parseInputToArray(input);
+
+        if (numeros.length === 0) {
+
+            resultado.textContent =
+                "Nenhum número válido foi informado.";
+
+            return;
+        }
+
+        let soma = 0;
+
+        for (let i = 0; i < numeros.length; i++) {
+
+            soma += numeros[i];
+
+        }
+
+        resultado.textContent =
+            "Soma = " + soma;
+
+    }
+
+
+   
+
+    function calcularFibonacci() {
+
+        const input =
+            document.getElementById('inputFibonacci').value;
+
+        const resultado =
+            document.getElementById('resFibonacci');
+
+        const n = Number(input);
+
+        if (input === "") {
+
+            resultado.textContent =
+                "Digite a quantidade de termos.";
+
+            return;
+        }
+
+        if (!Number.isInteger(n) || n < 1) {
+
+            resultado.textContent =
+                "Digite um número inteiro maior que zero.";
+
+            return;
+        }
+
+        let fibonacci = [];
+
+        let primeiro = 0;
+        let segundo = 1;
+
+        for (let i = 0; i < n; i++) {
+
+            fibonacci.push(primeiro);
+
+            let proximo =
+                primeiro + segundo;
+
+            primeiro = segundo;
+            segundo = proximo;
+
+        }
+
+        resultado.textContent =
+            fibonacci.join(" → ");
+
+    }
+
+
+    
+    function calcularMdc() {
+
+        const inputA =
+            document.getElementById('inputMdcA').value;
+
+        const inputB =
+            document.getElementById('inputMdcB').value;
+
+        const resultado =
+            document.getElementById('resMdc');
+
+        if (inputA === "" || inputB === "") {
+
+            resultado.textContent =
+                "Digite os dois números.";
+
+            return;
+        }
+
+        let a = Math.abs(Number(inputA));
+        let b = Math.abs(Number(inputB));
+
+        if (!Number.isInteger(a) ||
+            !Number.isInteger(b)) {
+
+            resultado.textContent =
+                "Digite apenas números inteiros.";
+
+            return;
+        }
+
+        if (a === 0 && b === 0) {
+
+            resultado.textContent =
+                "O MDC de 0 e 0 não é definido.";
+
+            return;
+        }
+
+        while (b !== 0) {
+
+            let resto = a % b;
+
+            a = b;
+            b = resto;
+
+        }
+
+        resultado.textContent =
+            "MDC = " + a;
+
+    }
+
+
+    
+
+    function calcularOrdenacao() {
+
+        const input =
+            document.getElementById('inputOrdenacao').value;
+
+        const resultado =
+            document.getElementById('resOrdenacao');
+
+        if (input.trim() === "") {
+
+            resultado.textContent =
+                "Digite os números.";
+
+            return;
+        }
+
+        const numeros =
+            parseInputToArray(input);
+
+        if (numeros.length === 0) {
+
+            resultado.textContent =
+                "Nenhum número válido foi informado.";
+
+            return;
+        }
+
+        
+        let array = [...numeros];
+
+        
+
+        for (let i = 0; i < array.length - 1; i++) {
+
+            for (let j = 0; j < array.length - 1 - i; j++) {
+
+                if (array[j] > array[j + 1]) {
+
+                    let temp = array[j];
+
+                    array[j] = array[j + 1];
+
+                    array[j + 1] = temp;
+
+                }
+
+            }
+
+        }
+
+        resultado.textContent =
+            array.join(" → ");
+
+    }
+
+
+   
+
+    function calcularContagem() {
+
+        const input =
+            document.getElementById('inputContagem').value;
+
+        const resultado =
+            document.getElementById('resContagem');
+
+        const n = Number(input);
+
+        if (input === "") {
+
+            resultado.textContent =
+                "Digite um número.";
+
+            return;
+        }
+
+        if (!Number.isInteger(n) || n < 1) {
+
+            resultado.textContent =
+                "Digite um número inteiro maior que zero.";
+
+            return;
+        }
+
+        let contador = 0;
+
+        for (let i = 1; i <= n; i++) {
+
+            contador++;
+
+        }
+
+        resultado.textContent =
+            "Existem " + contador +
+            " números inteiros de 1 até " + n + ".";
+
+    }
+
+</script>
+
+</body>
+</html>
+```
